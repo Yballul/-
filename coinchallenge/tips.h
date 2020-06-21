@@ -1,4 +1,4 @@
-#ifndef TIPS_H
+﻿#ifndef TIPS_H
 #define TIPS_H
 
 #include <QWidget>
@@ -9,14 +9,23 @@
 #include<QFont>
 #include<QString>
 #include<QMainWindow>
-class tips : public QWidget
+#include "config.h"
+
+/*************************************************
+类名：Tips
+
+游戏提示功能函数实现之一
+**************************************************/
+
+
+class Tips : public QWidget
 {
     Q_OBJECT
 public:
-    tips(path*);
-    path*answer;
-    MyButton*btn_back;
-    void backtoplay(QMainWindow*);
+    Tips(Path*);
+    Path *answer;
+    MyButton *btn_back;
+    void backtoPlay(QMainWindow*);
 
 signals:
 

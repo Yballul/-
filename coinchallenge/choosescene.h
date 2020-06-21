@@ -4,25 +4,60 @@
 #include <QMainWindow>
 #include "mybutton.h"
 #include<vector>
-#include "playscene.h"
 #include"winscene.h"
+#include "bgmusic.h"
+#include "config.h"
 
 using namespace std;
-class choosescene : public QMainWindow
+
+/*************************************************
+
+类名：ChooseScene
+
+
+相关函数介绍：
+    void paintEvent(QPaintEvent *)
+                                重写绘图事件
+    void backToMain(QMainWindow *)
+                                返回主窗口
+    void buildUpScene()
+                        搭建主要界面
+
+
+**************************************************/
+
+class MainWindow;
+
+class PlayScene;
+
+class WinScene;
+
+class ChooseScene : public QMainWindow
 {
     Q_OBJECT
 public:
-    explicit choosescene(QWidget *parent = nullptr);
-    void paintEvent(QPaintEvent*);
-    void backtomain(QMainWindow*);
+    explicit ChooseScene(QWidget *parent = nullptr);
+    void paintEvent(QPaintEvent *);
+    void backToMain(MainWindow *);
+    void buildUpScene();
+
+    //创建背景音乐
+    BGMusic choosemusic;
+
+    // 创建我的按钮类的数组
     vector<MyButton*>barchoose;
-    MyButton*btn_back;
+
+    // 创建返回按钮
+    MyButton *btn_back;
+
+    // 创建游戏场景
     PlayScene *playscene;
-    bool ifwin;
-    winscene*win;
-    void send2(QMainWindow*);
+
+
 signals:
 
 };
 
 #endif // CHOOSESCENE_H
+
+

@@ -3,13 +3,21 @@
 
 #include <QObject>
 #include"mybutton.h"
+#include "config.h"
 
-class path : public QObject
+/*************************************************
+类名：Path
+    存储开发过程中的相关点
+
+
+**************************************************/
+
+class Path : public QObject
 {
     Q_OBJECT
 public:
     //explicit path(QObject *parent = nullptr);
-    path(int,int);
+    Path(int,int);
     int x;
     int y;
 signals:

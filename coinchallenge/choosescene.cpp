@@ -1,5 +1,5 @@
-#include "choosescene.h"
-#include<Qpainter>
+﻿#include "choosescene.h"
+#include<QPainter>
 #include<QMenu>
 #include<QMenuBar>
 #include<QAction>
@@ -9,35 +9,96 @@
 #include<QLabel>
 #include<QString>
 #include<QDebug>
-choosescene::choosescene(QWidget *parent) : QMainWindow(parent)
-{
-    this->resize(500,800);
-    this->setFixedSize(500,800);//设定固定大小
-    this->setWindowTitle("选择关卡");//设置标题
-    this->setWindowIcon(QIcon(":/res/Coin0001.png"));//设置标题的图标
+#include "mainwindow.h"
+#include "playscene.h"
+#include "winscene.h"
+#include "sound.h"
+#include "bgmusic.h"
 
-    QMenuBar*bar=menuBar();//设置工具栏
+
+ChooseScene::ChooseScene(QWidget *parent) : QMainWindow(parent)
+{
+    // 重新调整窗口大小并且设置固定大小
+    this->resize(500,800);
+    this->setFixedSize(500,800);
+
+    // 设置标题以及标题的图标
+    this->setWindowTitle("选择关卡");
+    this->setWindowIcon(QIcon(COIN_GOLD));
+
+
+    // 设置菜单项，并且设置工具栏
+    QMenuBar *bar = menuBar();
     this->setMenuBar(bar);
-    QMenu*startmenu=new QMenu("start");
+    QMenu*startmenu=new QMenu("开始");
     bar->addMenu(startmenu);
-    QAction*quitaction=new QAction("quit");
+    QAction*quitaction=new QAction("退出");
     startmenu->addAction(quitaction);
 
-    btn_back=new MyButton(":/res/BackButtonSelected.png");//创建返回按钮
+    // 完成退出功能的实现
+    connect(quitaction,&QAction::triggered,[=](){
+        this->close();
+    });
+
+
+    //创建返回按钮
+    btn_back=new MyButton(BACK_BUTTON);
     btn_back->setParent(this);
     btn_back->move(350,600);
+    Sound(btn_back, BACK_SOUND);
 
-    win=new winscene();
-    ifwin==false;
+    //设置背景音乐
+    choosemusic.setBasic(this, SUB_MUSIC);
+    choosemusic.setButton();
 
-   playscene=NULL;
+    //搭建主要界面
+    this->buildUpScene();
+
+
+}
+
+void ChooseScene::paintEvent(QPaintEvent *)
+{
+    QPainter painter(this);
+    QPixmap map;//主场景对象
+    QPixmap title;//主场景标题
+    title.load(TITLE);
+    map.load(OTHER_BG);//加载图片
+    painter.drawPixmap(0,0,this->width(),this->height(),map);//绘制图片，并且按照实际情况进行拉伸
+    painter.drawPixmap(10,30,title);//绘制标题图片
+}
+
+
+void ChooseScene::backToMain(MainWindow * a)
+{
+    //点击按钮后返回主窗口
+    connect(btn_back,&MyButton::clicked,[=](){
+        btn_back->zoom();
+        QTimer::singleShot(200,this,[=](){
+            this->hide();
+
+            choosemusic.check();
+
+            a->mainmusic.play();
+            a->setGeometry(this->geometry());
+            a->show();
+
+        });
+
+    });
+}
+
+void ChooseScene::buildUpScene()
+{
+    playscene=NULL;
     for(int i=0;i<4;++i)
     {
         for(int j=0;j<4;++j)
         {
-            barchoose.push_back(new MyButton(":/res/Coin0008.png"));
+            barchoose.push_back(new MyButton(LEVEL_ICON));
             barchoose[4*i+j]->setParent(this);
             barchoose[4*i+j]->move((j+1)*90,(i+1)*120);
+            Sound(barchoose[4*i+j], TAP_SOUND);
 
             connect(barchoose[4*i+j],&MyButton::clicked,[=](){
                 barchoose[4*i+j]->zoom();
@@ -45,8 +106,12 @@ choosescene::choosescene(QWidget *parent) : QMainWindow(parent)
                     qDebug()<<"you choose"<<4*i+j+1<<"bar";
                     playscene=new PlayScene(4*i+j+1);
                     this->hide();
+                    choosemusic.check();
+                    playscene->setGeometry(this->geometry());
                     playscene->show();
-                    playscene->backtochoose(this);
+                    playscene->playmusic.play();
+                    playscene->backToChoose(this);
+                    playscene->getWindow(this);
                 });
             });
 
@@ -60,29 +125,4 @@ choosescene::choosescene(QWidget *parent) : QMainWindow(parent)
 
         }
     }
-
-
-}
-
-void choosescene::paintEvent(QPaintEvent *)
-{
-    QPainter painter(this);
-    QPixmap map;//主场景对象
-    QPixmap title;//主场景标题
-    title.load(":/res/Title.png");
-    map.load(":/res/PlayLevelSceneBg.png");//加载图片
-    painter.drawPixmap(0,0,this->width(),this->height(),map);//绘制图片，并且按照实际情况进行拉伸
-    painter.drawPixmap(10,30,title);//绘制标题图片
-}
-void choosescene::backtomain(QMainWindow * a)
-{
-    connect(btn_back,&MyButton::clicked,[=](){
-        btn_back->zoom();
-        QTimer::singleShot(200,this,[=](){
-            this->hide();
-            a->show();
-
-        });
-
-    });//点击按钮后返回主窗口
 }

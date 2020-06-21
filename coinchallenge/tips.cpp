@@ -1,12 +1,12 @@
-#include "tips.h"
+﻿#include "tips.h"
 
-tips::tips(path*a)
+Tips::Tips(Path*a)
 {
 
     answer=a;
     this->setFixedSize(500,300);
     this->setWindowTitle("提示窗口");
-    btn_back=new MyButton(":/res/BackButtonSelected.png");
+    btn_back=new MyButton(BACK_SOUND);
     btn_back->setParent(this);
     btn_back->move(this->width()-btn_back->width(),this->height()-btn_back->height());
 
@@ -20,7 +20,7 @@ tips::tips(path*a)
     label->setText(QString("right path:row %1，column %2").arg(answer->y).arg(answer->x));
 
 }
-void tips::backtoplay(QMainWindow *a)
+void Tips::backtoPlay(QMainWindow *a)
 {
     connect(btn_back,&MyButton::clicked,[=](){
         btn_back->zoom();

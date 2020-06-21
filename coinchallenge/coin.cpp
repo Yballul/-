@@ -1,8 +1,9 @@
 #include "coin.h"
 #include<QPushButton>
 
-coin::coin(bool a,int b,int c)
-{   flag=a;
+Coin::Coin(bool a,int b,int c)
+{
+    flag=a;
     posx=b;
     posy=c;
     QPixmap pix;
@@ -10,11 +11,11 @@ coin::coin(bool a,int b,int c)
     id2=new QTimer;
     if(a)
     {
-        pix.load(":/res/Coin0001.png");
+        pix.load(COIN_GOLD);
     }
     else
     {
-        pix.load(":/res/Coin0008.png");
+        pix.load(COIN_SILVER);
 
     }
     this->setFixedSize(pix.width(),pix.height());
@@ -55,7 +56,7 @@ coin::coin(bool a,int b,int c)
     });
 }
 
-void coin::changeFlag()
+void Coin::changeFlag()
 {
     if(flag)//金币翻银币
     {
