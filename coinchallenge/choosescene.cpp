@@ -35,7 +35,7 @@ choosescene::choosescene(QWidget *parent) : QMainWindow(parent)
     {
         for(int j=0;j<4;++j)
         {
-            barchoose.push_back(new MyButton(":/res/Coin0008.png"));
+            barchoose.push_back(new MyButton(":/res/LevelIcon.png"));
             barchoose[4*i+j]->setParent(this);
             barchoose[4*i+j]->move((j+1)*90,(i+1)*120);
 
@@ -47,6 +47,7 @@ choosescene::choosescene(QWidget *parent) : QMainWindow(parent)
                     this->hide();
                     playscene->show();
                     playscene->backtochoose(this);
+                    playscene->getwindow(this)
                 });
             });
 
