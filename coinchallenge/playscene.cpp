@@ -316,5 +316,5 @@ void PlayScene::godhand()
 }
 void PlayScene::getwindow(QMainWindow*a)
 {
-    win->backtomainwindow(a);
+    win->backtomainscene(a);
 }
