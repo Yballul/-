@@ -19,6 +19,7 @@
 #include<QVector>
 #include"path.h"
 #include"tips.h"
+#include<QFont>
 class PlayScene : public QMainWindow
 {
     Q_OBJECT
@@ -41,6 +42,7 @@ public:
    bool ifadd;
    path*comparation;
    void godhand();
+   void getwindow(QMainWindow*);
 
 
 
