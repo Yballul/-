@@ -11,7 +11,5 @@ int main(int argc, char *argv[])
     w.show();
 
     SceneConfig config;
-
-
     return a.exec();
 }
