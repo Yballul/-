@@ -8,19 +8,35 @@
 #include"winscene.h"
 
 using namespace std;
-class choosescene : public QMainWindow
+
+/*************************************************
+
+类名：ChooseScene
+
+
+相关函数介绍：
+    void paintEvent(QPaintEvent *)
+                                重写绘图事件
+    void backtomain(QMainWindow *)
+                                返回主窗口
+
+
+**************************************************/
+
+class ChooseScene : public QMainWindow
 {
     Q_OBJECT
 public:
-    explicit choosescene(QWidget *parent = nullptr);
-    void paintEvent(QPaintEvent*);
-    void backtomain(QMainWindow*);
-    vector<MyButton*>barchoose;
-    MyButton*btn_back;
-    PlayScene *playscene;
-    bool ifwin;
-    winscene*win;
-    void send2(QMainWindow*);
+    explicit ChooseScene(QWidget *parent = nullptr);
+    void paintEvent(QPaintEvent *);
+    void backtomain(QMainWindow *);
+
+
+    vector<MyButton*>barchoose;    // 创建我的按钮类的数组
+    MyButton *btn_back;    // 创建我的按钮类的数组
+    PlayScene *playscene;    // 创建我的按钮类的数组
+
+
 signals:
 
 };

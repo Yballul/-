@@ -1,6 +1,6 @@
 #include "winscene.h"
 #include<QPainter>
-winscene::winscene(QWidget *parent) : QMainWindow(parent)
+WinScene::WinScene(QWidget *parent) : QMainWindow(parent)
 {      //先实现菜单栏
        this->resize(500,800);
        QMenuBar*bar=menuBar();
@@ -30,7 +30,7 @@ winscene::winscene(QWidget *parent) : QMainWindow(parent)
 
 
 }
-void winscene::paintEvent(QPaintEvent*e)
+void WinScene::paintEvent(QPaintEvent*e)
 {
 
     QPainter painter(this);
@@ -42,7 +42,7 @@ void winscene::paintEvent(QPaintEvent*e)
     painter.drawPixmap(10,30,title);//绘制标题图片
 
 }
-void winscene::backtomainscene(QMainWindow*a)
+void WinScene::backtomainscene(QMainWindow*a)
 {
     connect(btn_back,&MyButton::clicked,[=](){
         btn_back->zoom();

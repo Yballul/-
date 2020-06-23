@@ -14,8 +14,8 @@ class tips : public QWidget
     Q_OBJECT
 public:
     tips(path*);
-    path*answer;
-    MyButton*btn_back;
+    path *answer;
+    MyButton *btn_back;
     void backtoplay(QMainWindow*);
 
 signals:

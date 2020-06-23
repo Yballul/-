@@ -24,6 +24,7 @@ SOURCES += \
     path.cpp \
     playscene.cpp \
     playscenevector.cpp \
+    sceneconfig.cpp \
     tips.cpp \
     winscene.cpp
 
@@ -35,6 +36,7 @@ HEADERS += \
     path.h \
     playscene.h \
     playscenevector.h \
+    sceneconfig.h \
     tips.h \
     winscene.h
 

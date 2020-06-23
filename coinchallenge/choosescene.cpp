@@ -1,5 +1,5 @@
 #include "choosescene.h"
-#include<Qpainter>
+#include<QPainter>
 #include<QMenu>
 #include<QMenuBar>
 #include<QAction>
@@ -9,28 +9,36 @@
 #include<QLabel>
 #include<QString>
 #include<QDebug>
-choosescene::choosescene(QWidget *parent) : QMainWindow(parent)
-{
-    this->resize(500,800);
-    this->setFixedSize(500,800);//设定固定大小
-    this->setWindowTitle("选择关卡");//设置标题
-    this->setWindowIcon(QIcon(":/res/Coin0001.png"));//设置标题的图标
 
-    QMenuBar*bar=menuBar();//设置工具栏
+
+ChooseScene::ChooseScene(QWidget *parent) : QMainWindow(parent)
+{
+    // 重新调整窗口大小并且设置固定大小
+    this->resize(500,800);
+    this->setFixedSize(500,800);
+
+    // 设置标题以及标题的图标
+    this->setWindowTitle("选择关卡");
+    this->setWindowIcon(QIcon(":/res/Coin0001.png"));
+
+    // 设置菜单项，并且设置工具栏
+    QMenuBar *bar = menuBar();
     this->setMenuBar(bar);
-    QMenu*startmenu=new QMenu("start");
+    QMenu*startmenu=new QMenu("开始");
     bar->addMenu(startmenu);
-    QAction*quitaction=new QAction("quit");
+    QAction*quitaction=new QAction("退出");
     startmenu->addAction(quitaction);
+
+    // 完成退出功能的实现
+    connect(quitaction,&QAction::triggered,[=](){
+        this->close();
+    });
 
     btn_back=new MyButton(":/res/BackButtonSelected.png");//创建返回按钮
     btn_back->setParent(this);
     btn_back->move(350,600);
 
-    win=new winscene();
-    ifwin==false;
-
-   playscene=NULL;
+    playscene=NULL;
     for(int i=0;i<4;++i)
     {
         for(int j=0;j<4;++j)
@@ -47,7 +55,7 @@ choosescene::choosescene(QWidget *parent) : QMainWindow(parent)
                     this->hide();
                     playscene->show();
                     playscene->backtochoose(this);
-                    playscene->getwindow(this)
+                    playscene->getwindow(this);
                 });
             });
 
@@ -65,7 +73,7 @@ choosescene::choosescene(QWidget *parent) : QMainWindow(parent)
 
 }
 
-void choosescene::paintEvent(QPaintEvent *)
+void ChooseScene::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
     QPixmap map;//主场景对象
@@ -75,8 +83,11 @@ void choosescene::paintEvent(QPaintEvent *)
     painter.drawPixmap(0,0,this->width(),this->height(),map);//绘制图片，并且按照实际情况进行拉伸
     painter.drawPixmap(10,30,title);//绘制标题图片
 }
-void choosescene::backtomain(QMainWindow * a)
+
+
+void ChooseScene::backtomain(QMainWindow * a)
 {
+    //点击按钮后返回主窗口
     connect(btn_back,&MyButton::clicked,[=](){
         btn_back->zoom();
         QTimer::singleShot(200,this,[=](){
@@ -85,5 +96,5 @@ void choosescene::backtomain(QMainWindow * a)
 
         });
 
-    });//点击按钮后返回主窗口
+    });
 }

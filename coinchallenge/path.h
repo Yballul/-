@@ -4,6 +4,8 @@
 #include <QObject>
 #include"mybutton.h"
 
+
+
 class path : public QObject
 {
     Q_OBJECT
