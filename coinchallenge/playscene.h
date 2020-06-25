@@ -7,7 +7,6 @@
 #include<QMenuBar>
 #include<QAction>
 #include<QTimer>
-#include<vector>
 #include<QLabel>
 #include<QString>
 #include<QDebug>
@@ -60,12 +59,13 @@ public:
    QAction *tipsaction;
    QAction *god;
    path *comparation;
-   coin *coinset[4][4];
+   coin *coinset[10][10];
    MyButton *btn_back;
    QVector<path*>helper;
    QVector<path*>answer;
-   bool array[4][4];
-   QTimer*counter;
+   QVector<QVector<int>> array;
+// bool array[4][4];
+   QTimer *counter;
    int time;
    ChooseScene *back;
    void recordscore();

@@ -31,7 +31,7 @@ PlayScene::PlayScene(int index)
     startmenu->addAction(quitaction);
     startmenu->addAction(tipsaction);
     startmenu->addAction(god);
-    this->godhand();
+//    this->godhand();
     win = NULL;
 
     connect(quitaction,&QAction::triggered,[=](){
@@ -90,36 +90,29 @@ PlayScene::PlayScene(int index)
         this->update();
     });
 
+    auto pos = config.mData.find(index);
 
-    answer.push_back(new path(1,1));
-    answer.push_back(new path(2,2));
-    answer.push_back(new path(4,3));
-    answer.push_back(new path(4,1));
-    answer.push_back(new path(2,4));
-    //答案的路径
-
-    for(int i=0;i < 4;++i)
+    for(int i=0;i < pos->first().size();++i)
     {
-        for(int j=0;j < 4;j++)
-        {
-            array[i][j] = config.mData[index][i][j];
-        }
+        array.push_back(config.mData[index][i]);
+
     }
 
     //创建金币的图片背景+创建金币
-   for(int i=0;i < 4;i++)
+   for(int i=0;i < pos->first().size();i++)
    {
-       for(int j=0;j < 4;j++)
+       for(int j=0;j < pos->first().size();j++)
        {
            QLabel * bg = new QLabel(this);
            QPixmap pix;
            pix.load(":/res/BoardNode.png");
-           bg->setGeometry(150+i*50,200+j*50,pix.width(),pix.height());
+
+           bg->setGeometry(126+i*50+(5-pos->first().size())*22,220+j*50,pix.width(),pix.height());
            bg->setPixmap(pix);;
 
            coin *little = new coin(array[i][j],i+1,j+1);
            little->setParent(this);
-           little->move(152+i*50,202+j*50);
+           little->move(126+i*50+(5-pos->first().size())*22,222+j*50);
            coinset[i][j] = little;
            connect(little,&coin::clicked,[=](){
                QSound * flipsound = new QSound(":/res/ConFlipSound.wav");
@@ -142,25 +135,25 @@ PlayScene::PlayScene(int index)
                }
 
                QTimer::singleShot(100,this,[=](){
-                   if(coinset[i][j]->posx+1<=4)
+                   if(coinset[i][j]->posx+1 <= pos->first().size())
                    {
                        coinset[i+1][j]->changeFlag();
                        array[i+1][j]=!(array[i+1][j]);
                    }//检测右边是否有硬币需要翻转
 
-                   if(coinset[i][j]->posx-1>=1)
+                   if(coinset[i][j]->posx-1 >= 1)
                    {
                        coinset[i-1][j]->changeFlag();
                         array[i-1][j]=!(array[i-1][j]);
                    }//检测左边是否有硬币需要翻转
 
-                   if(coinset[i][j]->posy+1<=4)
+                   if(coinset[i][j]->posy+1 <= pos->first().size())
                    {
                        coinset[i][j+1]->changeFlag();
                         array[i][j+1]=!(array[i][j+1]);
                    }//检测下边硬币是否需要反转
 
-                   if(coinset[i][j]->posy-1>=1)
+                   if(coinset[i][j]->posy-1 >= 1)
                    {
                        coinset[i][j-1]->changeFlag();
                        array[i][j-1]=!(array[i][j-1]);
@@ -168,9 +161,9 @@ PlayScene::PlayScene(int index)
 
                ifwin=true;
 
-               for(int a=0; a<4;++a)
+               for(int a=0; a<pos->first().size();++a)
                {
-                   for(int b=0; b<4;++b)
+                   for(int b=0; b<pos->first().size();++b)
                    {
                        if(coinset[a][b]->flag==false)
                        {
@@ -200,10 +193,8 @@ PlayScene::PlayScene(int index)
 
    }
 
-
-
-
 }
+
 void PlayScene::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
@@ -264,13 +255,11 @@ void PlayScene::backtochoose(ChooseScene *a)
 
         });//点击按钮后返回主窗口
 }
+
 void PlayScene::Helpersendtips()
 {
 
     connect( tipsaction,&QAction::triggered,[=](){
-
-
-
         //玩家已经开始走了，先比较一下玩家的路径和答案的路径
         bool same=true;
         int border;
@@ -306,10 +295,6 @@ void PlayScene::Helpersendtips()
 void PlayScene::godhand()
 {
     connect(god, &QAction::triggered,[=](){
-
-
-
-
         bool same=true;
         int border;
         border=helper.size()<=answer.size() ? helper.size() : answer.size();
@@ -329,8 +314,8 @@ void PlayScene::godhand()
                     ifwin=true;
                 }//如果已经走到了倒数第二步了，那么下面的程序就是把最后一步走完，所以这里直接将ifwin设为true
                 coinset[answer[helper.size()]->x-1][answer[helper.size()]->y-1]->changeFlag();
-              int  i=answer[helper.size()]->x-1;
-              int  j=answer[helper.size()]->y-1;
+                int  i=answer[helper.size()]->x-1;
+                int  j=answer[helper.size()]->y-1;
                 QTimer::singleShot(100,this,[=](){
                     if(coinset[i][j]->posx+1<=4)
                     {
@@ -413,8 +398,9 @@ void PlayScene::godhand()
 
 void PlayScene::getwindow(ChooseScene *a)
 {
-    back=a;
+    back = a;
 }
+
 void PlayScene::recordscore()
 {
 
@@ -426,6 +412,7 @@ void PlayScene::recordscore()
     file.write(b);
     file.close();
 }
+
 void PlayScene::getbestrecord()
 {
     QByteArray arr;

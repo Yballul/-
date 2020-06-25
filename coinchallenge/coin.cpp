@@ -2,7 +2,8 @@
 #include<QPushButton>
 
 coin::coin(bool a,int b,int c)
-{   flag=a;
+{
+    flag=a;
     posx=b;
     posy=c;
     QPixmap pix;
