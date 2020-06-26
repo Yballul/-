@@ -9,10 +9,11 @@
 #include<QLabel>
 #include<QString>
 #include<QDebug>
-#include <QSound>
 #include "mainwindow.h"
 #include "playscene.h"
 #include "winscene.h"
+#include "sound.h"
+#include "bgmusic.h"
 
 
 ChooseScene::ChooseScene(QWidget *parent) : QMainWindow(parent)
@@ -42,34 +43,10 @@ ChooseScene::ChooseScene(QWidget *parent) : QMainWindow(parent)
     btn_back=new MyButton(":/res/BackButtonSelected.png");//创建返回按钮
     btn_back->setParent(this);
     btn_back->move(350,600);
+    Sound(btn_back, ":/res/BackButtonSound.wav");
 
-
-    //静音按钮1
-    MyButton * mutebutton1 = new MyButton(":/res/NoMute1.png");
-    mutebutton1->setParent(this);
-    mutebutton1->move(this->width() - mutebutton1->width(), this->height() - mutebutton1->height());
-
-    //静音按钮2
-    MyButton * mutebutton2 = new MyButton(":/res/Mute1.png");
-    mutebutton2->setParent(this);
-    mutebutton2->move(this->width() - mutebutton2->width(), this->height() - mutebutton2->height());
-    mutebutton2->hide();
-    mutebutton2->setAttribute(Qt::WA_TransparentForMouseEvents, true);
-
-
-    connect(mutebutton1, &MyButton::clicked, [=](){
-       mutebutton1->hide();
-       mutebutton2->show();
-       playMusic(1);
-       mutebutton2->setAttribute(Qt::WA_TransparentForMouseEvents, false);
-    });
-
-    connect(mutebutton2, &MyButton::clicked, [=](){
-        mutebutton2->hide();
-        mutebutton1->show();
-        playMusic(0);
-        mutebutton2->setAttribute(Qt::WA_TransparentForMouseEvents, true);
-    });
+    choosemusic.setBasic(this, ":/res/RoyalDays1.wav");
+    choosemusic.setButton();
 
     playscene=NULL;
     for(int i=0;i<4;++i)
@@ -79,19 +56,18 @@ ChooseScene::ChooseScene(QWidget *parent) : QMainWindow(parent)
             barchoose.push_back(new MyButton(":/res/LevelIcon.png"));
             barchoose[4*i+j]->setParent(this);
             barchoose[4*i+j]->move((j+1)*90,(i+1)*120);
+            Sound(barchoose[4*i+j], ":/res/TapButtonSound.wav");
 
             connect(barchoose[4*i+j],&MyButton::clicked,[=](){
                 barchoose[4*i+j]->zoom();
-                QSound * choosesound = new QSound(":/res/TapButtonSound.wav");
-                choosesound->play();
                 QTimer::singleShot(200,this,[=](){
                     qDebug()<<"you choose"<<4*i+j+1<<"bar";
                     playscene=new PlayScene(4*i+j+1);
                     this->hide();
-                    playMusic(1);
+                    choosemusic.check();
                     playscene->setGeometry(this->geometry());
-                    playscene->playMusic(0);
                     playscene->show();
+                    playscene->playmusic.play();
                     playscene->backtochoose(this);
                     playscene->getwindow(this);
                 });
@@ -125,15 +101,13 @@ void ChooseScene::paintEvent(QPaintEvent *)
 
 void ChooseScene::backtomain(MainWindow * a)
 {
-    QSound * backbtnsound = new QSound(":/res/BackButtonSound.wav");
     //点击按钮后返回主窗口
     connect(btn_back,&MyButton::clicked,[=](){
         btn_back->zoom();
-        backbtnsound->play();
         QTimer::singleShot(200,this,[=](){
             this->hide();
-            playMusic(1);
-            a->playMusic(0);
+            choosemusic.check();
+            a->mainmusic.play();
             a->setGeometry(this->geometry());
             a->show();
 
@@ -142,13 +116,3 @@ void ChooseScene::backtomain(MainWindow * a)
     });
 }
 
-void ChooseScene::playMusic(bool isplaying)
-{
-     static QSound * background2 = new QSound(":/res/RoyalDays1.wav");
-     if (isplaying)
-         background2->stop();
-     else {
-         background2->play();
-         background2->setLoops(-1);
-    }
-}

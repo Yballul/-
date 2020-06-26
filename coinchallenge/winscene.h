@@ -12,6 +12,7 @@
 #include<QFont>
 #include<QPen>
 #include"mybutton.h"
+#include "bgmusic.h"
 
 /*************************************************
 
@@ -43,6 +44,7 @@ public:
     int index;
     bool breakrecord;
     bool empty;
+    bgMusic winmusic;
 
 
 signals:

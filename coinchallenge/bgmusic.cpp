@@ -1,0 +1,68 @@
+#include "bgmusic.h"
+#include <QSound>
+#include "mybutton.h"
+
+
+bgMusic::bgMusic()
+{
+
+}
+
+void bgMusic::setBasic(QMainWindow* a, QString s)
+{
+    window = a;
+    address = s;
+    sound = new QSound(address);
+
+}
+
+void bgMusic::check()
+{
+    if (window->isHidden())
+        sound->stop();
+}
+
+void bgMusic::play()
+{
+    sound->setLoops(-1);
+    sound->play();
+}
+
+void bgMusic::playForOnce()
+{
+    sound->play();
+}
+
+void bgMusic::setButton()
+{
+
+
+    //静音按钮1
+    MyButton * mutebutton1 = new MyButton(":/res/NoMute1.png");
+    mutebutton1->setParent(window);
+    mutebutton1->move(window->width() - mutebutton1->width(), window->height() - mutebutton1->height());
+
+    //静音按钮2
+    MyButton * mutebutton2 = new MyButton(":/res/Mute1.png");
+    mutebutton2->setParent(window);
+    mutebutton2->move(window->width() - mutebutton2->width(), window->height() - mutebutton2->height());
+    mutebutton2->hide();
+    mutebutton2->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+
+
+
+    connect(mutebutton1, &MyButton::clicked, [=](){
+       mutebutton1->hide();
+       mutebutton2->show();
+       sound->stop();
+       mutebutton2->setAttribute(Qt::WA_TransparentForMouseEvents, false);
+    });
+
+    connect(mutebutton2, &MyButton::clicked, [=](){
+        mutebutton2->hide();
+        mutebutton1->show();
+        sound->play();
+        mutebutton2->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+    });
+
+}

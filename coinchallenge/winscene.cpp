@@ -1,7 +1,8 @@
 ﻿#include "winscene.h"
 #include<QPainter>
-#include <QSound>
+#include "sound.h"
 #include "choosescene.h"
+#include "mybutton.h"
 WinScene::WinScene(int t,int u,int v,bool a,bool b)
 {      //先实现菜单栏
        this->resize(500,800);
@@ -22,6 +23,7 @@ WinScene::WinScene(int t,int u,int v,bool a,bool b)
        label->setGeometry(150,300,400,40);
        label->setText("游戏胜利");
 
+       winmusic.setBasic(this, ":/res/LevelWinSound.wav");
 
        best=u;
        breakrecord=a;
@@ -31,6 +33,7 @@ WinScene::WinScene(int t,int u,int v,bool a,bool b)
        btn_back=new MyButton(":/res/BackButton.png");
        btn_back->setParent(this);
        btn_back->move(this->width()-btn_back->width(),this->height()-btn_back->height());
+       Sound(btn_back, ":/res/BackButtonSound.wav");
 
        timeplay=t;
 }
@@ -130,11 +133,10 @@ void WinScene::backtomainscene(ChooseScene *a)
 {
     connect(btn_back,&MyButton::clicked,[=](){
         btn_back->zoom();
-        QSound * backbtnsound3 = new QSound(":/res/BackButtonSound.wav");
-        backbtnsound3->play();
         QTimer::singleShot(200,this,[=](){
             this->hide();
-            a->playMusic(0);
+            winmusic.check();
+            a->choosemusic.play();
             a->show();
         });
     });

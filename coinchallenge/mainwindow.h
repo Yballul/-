@@ -10,6 +10,7 @@
 #include"playscene.h"
 #include <QSound>
 #include <QSoundEffect>
+#include "bgmusic.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -38,7 +39,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     void paintEvent(QPaintEvent *);
-    void playMusic(bool);
+
+    bgMusic mainmusic;
 
 
 

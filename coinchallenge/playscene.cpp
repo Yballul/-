@@ -1,7 +1,10 @@
 ﻿#include "playscene.h"
-#include <QSound>
+#include "sound.h"
 #include <QTimer>
 #include "choosescene.h"
+#include "mybutton.h"
+#include "coin.h"
+#include "bgmusic.h"
 
 
 PlayScene::PlayScene(int index)
@@ -38,38 +41,14 @@ PlayScene::PlayScene(int index)
         this->close();
     });
 
-    //静音按钮1
-    MyButton * mutebutton1 = new MyButton(":/res/NoMute1.png");
-    mutebutton1->setParent(this);
-    mutebutton1->move(this->width() - mutebutton1->width(), this->height() - mutebutton1->height());
-
-    //静音按钮2
-    MyButton * mutebutton2 = new MyButton(":/res/Mute1.png");
-    mutebutton2->setParent(this);
-    mutebutton2->move(this->width() - mutebutton2->width(), this->height() - mutebutton2->height());
-    mutebutton2->hide();
-    mutebutton2->setAttribute(Qt::WA_TransparentForMouseEvents, true);
-
-
-    connect(mutebutton1, &MyButton::clicked, [=](){
-       mutebutton1->hide();
-       mutebutton2->show();
-       playMusic(1);
-       mutebutton2->setAttribute(Qt::WA_TransparentForMouseEvents, false);
-    });
-
-    connect(mutebutton2, &MyButton::clicked, [=](){
-        mutebutton2->hide();
-        mutebutton1->show();
-        playMusic(0);
-        mutebutton2->setAttribute(Qt::WA_TransparentForMouseEvents, true);
-    });
-
+    playmusic.setBasic(this, ":/res/No More What Ifs.wav");
+    playmusic.setButton();
 
     //创建返回按钮
     btn_back=new MyButton(":/res/BackButtonSelected.png");
     btn_back->setParent(this);
     btn_back->move(350,600);
+    Sound(btn_back, ":/res/BackButtonSound.wav");
 
     QLabel *label=new QLabel;
     label->setParent(this);
@@ -114,9 +93,9 @@ PlayScene::PlayScene(int index)
            little->setParent(this);
            little->move(126+i*50+(5-pos->first().size())*22,222+j*50);
            coinset[i][j] = little;
+           Sound(coinset[i][j], ":/res/ConFlipSound.wav");
            connect(little,&coin::clicked,[=](){
-               QSound * flipsound = new QSound(":/res/ConFlipSound.wav");
-               flipsound->play();
+
 
                little->changeFlag();
 
@@ -179,11 +158,10 @@ PlayScene::PlayScene(int index)
                {
                        counter->stop();
                        this->hide();
-                       playMusic(1);
-                       QSound * winsound = new QSound(":/res/LevelWinSound.wav");
-                       winsound->play();
+                       playmusic.check();
                        win=new WinScene(time,best,barindex,time<best?true:false,recordempty);
                        win->backtomainscene(back);
+                       win->winmusic.playForOnce();
                        win->show();
                        this->recordscore();
                }});
@@ -240,15 +218,13 @@ void PlayScene::paintEvent(QPaintEvent *)
 }
 
 void PlayScene::backtochoose(ChooseScene *a)
-{
-    QSound * backbtnsound2 = new QSound(":/res/BackButtonSound.wav");
+{   
         connect(btn_back,&MyButton::clicked,[=](){
             btn_back->zoom();
-            backbtnsound2->play();
             QTimer::singleShot(200,this,[=](){
                 this->hide();
-                playMusic(1);
-                a->playMusic(0);
+                playmusic.check();
+                a->choosemusic.play();
                 a->setGeometry(this->geometry());
                 a->show();
             });
@@ -450,15 +426,3 @@ void PlayScene::getbestrecord()
     }
 }
 
-
-void PlayScene::playMusic(bool isPlaying)
-{
-    static QSound * background3 = new QSound(":/res/No More What Ifs.wav");
-    if (isPlaying)
-        background3->stop();
-    else {
-        background3->play();
-        background3->setLoops(-1);
-        }
-
-}

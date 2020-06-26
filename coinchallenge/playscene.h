@@ -19,6 +19,7 @@
 #include"mybutton.h"
 #include"sceneconfig.h"
 #include<QPen>
+#include "bgmusic.h"
 
 /*************************************************
 类名：PlayScene
@@ -47,9 +48,10 @@ public:
 
    void godhand();
    void getwindow(ChooseScene *);
-   void playMusic(bool);
 
 
+
+   bgMusic playmusic;
    bool ifwin;
    bool ifadd;
    int barindex;

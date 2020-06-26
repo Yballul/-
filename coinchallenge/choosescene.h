@@ -5,7 +5,7 @@
 #include "mybutton.h"
 #include<vector>
 #include"winscene.h"
-
+#include "bgmusic.h"
 
 using namespace std;
 
@@ -36,7 +36,7 @@ public:
     explicit ChooseScene(QWidget *parent = nullptr);
     void paintEvent(QPaintEvent *);
     void backtomain(MainWindow *);
-    void playMusic(bool);
+    bgMusic choosemusic;
 
 
     vector<MyButton*>barchoose;    // 创建我的按钮类的数组

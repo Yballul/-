@@ -19,6 +19,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    bgmusic.cpp \
     choosescene.cpp \
     coin.cpp \
     main.cpp \
@@ -28,10 +29,12 @@ SOURCES += \
     playscene.cpp \
     playscenevector.cpp \
     sceneconfig.cpp \
+    sound.cpp \
     tips.cpp \
     winscene.cpp
 
 HEADERS += \
+    bgmusic.h \
     choosescene.h \
     coin.h \
     mainwindow.h\
@@ -40,6 +43,7 @@ HEADERS += \
     playscene.h \
     playscenevector.h \
     sceneconfig.h \
+    sound.h \
     tips.h \
     winscene.h
 
