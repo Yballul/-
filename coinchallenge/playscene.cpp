@@ -441,7 +441,7 @@ void PlayScene::getWindow(ChooseScene *a)
 void PlayScene::recordScore()
 {
     //记录文件路径
-    QString filepath=QString("C://Users//ASUS//Desktop//record.txt");
+    QString filepath=QString("record.txt");
     QFile file(filepath);
     //用追加的方式打开文件，写入数据
     file.open(QIODevice::Append);
@@ -457,7 +457,7 @@ void PlayScene::getBestRecord()
 {
     QByteArray arr;
     //记录文件路径
-    QString filepath=QString("C://Users//ASUS//Desktop//record.txt");
+    QString filepath=QString("record.txt");
     QFile file(filepath);
     //用只读的方式读取文件
     file.open(QIODevice::ReadOnly);
