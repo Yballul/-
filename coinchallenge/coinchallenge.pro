@@ -27,7 +27,6 @@ SOURCES += \
     mybutton.cpp \
     path.cpp \
     playscene.cpp \
-    playscenevector.cpp \
     sceneconfig.cpp \
     sound.cpp \
     tips.cpp \
@@ -41,7 +40,6 @@ HEADERS += \
     mybutton.h \
     path.h \
     playscene.h \
-    playscenevector.h \
     sceneconfig.h \
     sound.h \
     tips.h \

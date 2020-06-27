@@ -68,8 +68,8 @@ ChooseScene::ChooseScene(QWidget *parent) : QMainWindow(parent)
                     playscene->setGeometry(this->geometry());
                     playscene->show();
                     playscene->playmusic.play();
-                    playscene->backtochoose(this);
-                    playscene->getwindow(this);
+                    playscene->backToChoose(this);
+                    playscene->getWindow(this);
                 });
             });
 

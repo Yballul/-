@@ -1,4 +1,4 @@
-#ifndef TIPS_H
+﻿#ifndef TIPS_H
 #define TIPS_H
 
 #include <QWidget>
@@ -16,7 +16,7 @@ public:
     tips(path*);
     path *answer;
     MyButton *btn_back;
-    void backtoplay(QMainWindow*);
+    void backtoPlay(QMainWindow*);
 
 signals:
 

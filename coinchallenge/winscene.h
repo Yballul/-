@@ -37,7 +37,8 @@ class WinScene : public QMainWindow
 public:
     WinScene(int a,int b,int c,bool d,bool e);
     void paintEvent(QPaintEvent *e);
-    void backtomainscene(ChooseScene *);
+    void backToMainScene(ChooseScene *);
+    QString standardTime(int,int);
     MyButton *btn_back;
     int timeplay;
     int best;

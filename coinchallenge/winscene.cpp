@@ -4,7 +4,8 @@
 #include "choosescene.h"
 #include "mybutton.h"
 WinScene::WinScene(int t,int u,int v,bool a,bool b)
-{      //先实现菜单栏
+{
+    //先实现菜单栏
        this->resize(500,800);
        QMenuBar*bar=menuBar();
        this->setMenuBar(bar);
@@ -23,19 +24,23 @@ WinScene::WinScene(int t,int u,int v,bool a,bool b)
        label->setGeometry(150,300,400,40);
        label->setText("游戏胜利");
 
-       winmusic.setBasic(this, ":/res/LevelWinSound.wav");
-
+       //初始化一些基本成员
        best=u;
        breakrecord=a;
        empty=b;
        index=v;
+       timeplay=t;
+
+       winmusic.setBasic(this, ":/res/LevelWinSound.wav");
+
+
 
        btn_back=new MyButton(":/res/BackButton.png");
        btn_back->setParent(this);
        btn_back->move(this->width()-btn_back->width(),this->height()-btn_back->height());
        Sound(btn_back, ":/res/BackButtonSound.wav");
 
-       timeplay=t;
+
 }
 void WinScene::paintEvent(QPaintEvent*e)
 {
@@ -57,6 +62,47 @@ void WinScene::paintEvent(QPaintEvent*e)
     painter.setPen(pen);
     int minute=timeplay/60;
     int second=timeplay%60;
+
+    QString timeshow=this->standardTime(minute,second);
+    //写上标准的玩家通关时间
+    painter.drawText(120,250,timeshow);
+
+    int minute1=best/60;
+    int second1=best%60;
+
+
+    pen.setColor(Qt::blue);
+    painter.setPen(pen);
+    //写上最高纪录时间
+    QString timeshow1=this->standardTime(minute1,second1);
+
+    if(empty)
+    {
+        //没有记录的情况
+        painter.drawText(70,400,"当前无任何记录");
+    }
+    else if(breakrecord&&!empty)
+    {
+        //打破了纪录的状况
+        painter.drawText(70,400,"恭喜你打破记录");
+        painter.drawText(180,450,"原纪录:");
+        painter.drawText(190,500,timeshow1);
+    }
+    else if(!breakrecord&&!empty)
+    {
+        //没打破纪录的状况
+        painter.drawText(180,400,"原纪录:");
+        painter.drawText(190,450,timeshow1);
+    }
+    //设置画笔颜色，字体大小
+    pen.setColor(Qt::white);
+    font.setPointSize(40);
+    painter.setFont(font);
+    painter.setPen(pen);
+    painter.drawText(165,200,QString("第%1关").arg(index));
+}
+QString WinScene::standardTime(int minute,int second)
+{
     QString minuteshow;
     QString secondshow;
     if(minute<10)
@@ -78,65 +124,20 @@ void WinScene::paintEvent(QPaintEvent*e)
     }
 
     QString timeshow=QString("用时:")+minuteshow+QString(":")+secondshow;
-    painter.drawText(120,250,timeshow);
-
-    int minute1=best/60;
-    int second1=best%60;
-    QString minuteshow1;
-    QString secondshow1;
-    if(minute1<10)
-    {
-        minuteshow1=QString("0%1").arg(minute1);
-    }
-    else
-    {
-        minuteshow1=QString("%1").arg(minute1);
-    }
-    if(second1<10)
-    {
-        secondshow1=QString("0%1").arg(second1);
-    }
-    else
-    {
-        secondshow1=QString("%1").arg(second1);
-
-    }
-    pen.setColor(Qt::blue);
-    painter.setPen(pen);
-    QString timeshow1=minuteshow1+QString(":")+secondshow1;
-
-    if(empty)
-    {
-        painter.drawText(70,400,"当前无任何记录");
-    }
-    else if(breakrecord&&!empty)
-    {
-
-        painter.drawText(70,400,"恭喜你打破记录");
-        painter.drawText(180,450,"原纪录:");
-        painter.drawText(190,500,timeshow1);
-    }
-    else if(!breakrecord&&!empty)
-    {
-        painter.drawText(180,400,"原纪录:");
-        painter.drawText(190,450,timeshow1);
-    }
-    pen.setColor(Qt::white);
-    font.setPointSize(40);
-    painter.setFont(font);
-    painter.setPen(pen);
-    painter.drawText(165,200,QString("第%1关").arg(index));
-
-
+    return timeshow;
 }
-void WinScene::backtomainscene(ChooseScene *a)
+void WinScene::backToMainScene(ChooseScene *a)
 {
+    //实现返回功能
     connect(btn_back,&MyButton::clicked,[=](){
         btn_back->zoom();
         QTimer::singleShot(200,this,[=](){
+            //隐藏本窗口
             this->hide();
+            //胜利背景音乐
             winmusic.check();
             a->choosemusic.play();
+            //显示选择窗口
             a->show();
         });
     });

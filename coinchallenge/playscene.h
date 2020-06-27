@@ -43,11 +43,19 @@ public:
    // explicit PlayScene(QWidget *parent = nullptr);
    PlayScene(int index);
    void paintEvent(QPaintEvent*);
-   void backtochoose(ChooseScene*);
+   void backToChoose(ChooseScene*);
    void Helpersendtips();
-
-   void godhand();
-   void getwindow(ChooseScene *);
+   void godHand();
+   void getWindow(ChooseScene *);
+   void drawLevel();
+   void startCounter();
+   void createCoins();
+   void changeOther(int,int,int);
+   void ifWinGame(int );
+   void winEvent();
+   void recordScore();
+   void getBestRecord();
+   QString standardTime();
 
 
 
@@ -70,8 +78,7 @@ public:
    QTimer *counter;
    int time;
    ChooseScene *back;
-   void recordscore();
-   void getbestrecord();
+
    int best;
    bool recordempty;
 
