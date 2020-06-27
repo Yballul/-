@@ -1,5 +1,6 @@
 ﻿#ifndef PLAYSCENE_H
 #define PLAYSCENE_H
+#define inf 0x3f3f3f3f
 #include<QFile>
 #include<QMainWindow>
 #include<QPainter>
@@ -19,22 +20,43 @@
 #include"mybutton.h"
 #include"sceneconfig.h"
 #include<QPen>
+#include<ctime>
 #include "bgmusic.h"
+#include<windows.h>
+#include<iostream>
+#include <QStack>
 
 /*************************************************
 类名：PlayScene
     游戏场景类
+相关函数介绍
+   void paintEvent(QPaintEvent*);
+                            绘图时间，重新绘制游戏场景
+   void backToChoose(ChooseScene*);
+                            返回选择关卡界面
+   void Helpersendtips();
+                            提示界面
+   void godHand();
+                            帮助玩家执行下一步
+   void getWindow(ChooseScene *);
+                            获取选择关卡界面
+   void drawLevel();
 
-相关函数介绍：
-    void zoom();            做默认按钮的按下，弹起特效
-    void mousePressEvent(QMouseEvent*e)
-                          做有第二个参数的按钮按下特效
-    void mouseReleaseEvent(QMouseEvent *e)
-                          做有第二个参数的按钮弹起特效
+   void startCounter();
+   void createCoins();
+   void changeOther(int,int,int);
+   void ifWinGame(int );
+   void winEvent();
+   void recordScore();
+   void getBestRecord();
+   QString standardTime();
+   void Delay();
 
 **************************************************/
 
 class ChooseScene;
+
+
 
 class PlayScene : public QMainWindow
 {
@@ -55,9 +77,15 @@ public:
    void winEvent();
    void recordScore();
    void getBestRecord();
+   void Delay();
+   void dfs(int x, int y, int step);
    QString standardTime();
-
-
+   void recordArray(int,int);
+   void nowArrayInit(int index);
+   void solveArray();
+   void swap(int x,int y);
+   void stackOutput();
+   bool check();
 
    bgMusic playmusic;
    bool ifwin;
@@ -78,10 +106,14 @@ public:
    QTimer *counter;
    int time;
    ChooseScene *back;
-
    int best;
    bool recordempty;
-
+   int minn = inf;
+   QTimer *test;
+   QStack<int>ret_x;
+   QStack<int>ret_y;
+   QStack<int>pos_x;
+   QStack<int>pos_y;
 
 signals:
 

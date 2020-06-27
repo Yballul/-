@@ -6,6 +6,7 @@
 #include<QLabel>
 #include<QTimer>
 #include<QString>
+#include<windows.h>
 class coin:public QPushButton
 {
 public:

@@ -65,18 +65,13 @@ MainWindow::MainWindow(QWidget *parent)
 // 重写绘图事件
 void MainWindow::paintEvent(QPaintEvent *event)
 {
-    // 创建一个绘画家对象
     QPainter painter(this);
-
-    // 绘制主场景标题
+    QPixmap map;//主场景对象
     QPixmap title;//主场景标题
     title.load(":/res/Title.png");
-    painter.drawPixmap(10,30,title);//绘制标题图片
-
-    // 绘制主场景对象，并且按照实际情况进行拉伸
-    QPixmap map;
     map.load(":/res/PlayLevelSceneBg.png");//加载图片
-    painter.drawPixmap(0,0,this->width(),this->height(),map);
+    painter.drawPixmap(0,0,this->width(),this->height(),map);//绘制图片，并且按照实际情况进行拉伸
+    painter.drawPixmap(10,30,title);//绘制标题图片
 
 }
 

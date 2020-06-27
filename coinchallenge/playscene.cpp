@@ -35,20 +35,33 @@ PlayScene::PlayScene(int index)
     QAction *quitaction = new QAction("退出");
     //设置“提示”菜单项
     tipsaction = new QAction("tips");
-    //设置“外挂”菜单项
+    //设置“外挂”菜单项C
     god = new QAction("god's hand");
     Helpersendtips();
+    //设置“dfs”菜单项
+    QAction *dfsaction = new QAction("dfs");
+    startmenu->addAction(dfsaction);
 
 
     startmenu->addAction(quitaction);
     startmenu->addAction(tipsaction);
     startmenu->addAction(god);
-//    this->godhand();
+    if(index<=9)
+    {
+        startmenu->addAction(dfsaction);
+    }
+
+//    this->godHand();
     win = NULL;
 
     //实现退出功能
     connect(quitaction,&QAction::triggered,[=](){
         this->close();
+    });
+
+    // 测试dfs功能
+    connect(dfsaction,&QAction::triggered,[=](){
+        this->solveArray();
     });
 
     playmusic.setBasic(this, ":/res/No More What Ifs.wav");
@@ -65,6 +78,7 @@ PlayScene::PlayScene(int index)
 
     //创造金币
     this->createCoins();
+
 
 }
 void PlayScene::createCoins()
@@ -118,7 +132,7 @@ void PlayScene::createCoins()
                     helper.push_back(new path(i+1,j+1));//把玩家的路径压入向量
                 }
                 //自身翻转后延后一段时间，然后四周金币翻转
-                int size=pos->first().size();
+                int size = pos->first().size();
                 QTimer::singleShot(100,this,[=](){
                     //翻转四周金币
                     this->changeOther(i,j,size);
@@ -228,6 +242,7 @@ void PlayScene::paintEvent(QPaintEvent *)
     painter.drawText(190,200,timeshow);
 
 }
+
 QString PlayScene::standardTime()
 {
     //得到分钟数
@@ -317,7 +332,7 @@ void PlayScene::godHand()
     connect(god, &QAction::triggered,[=](){
         bool same=true;
         int border;
-        border=helper.size()<=answer.size() ? helper.size() : answer.size();
+        border = helper.size()<=answer.size() ? helper.size() : answer.size();
         for(int i=0;i<border;i++)//先确定哪个元素比较多
         {
             if(helper[i]->x!=answer[i]->x||helper[i]->y!=answer[i]->y)//比较路径是否相等
@@ -332,7 +347,7 @@ void PlayScene::godHand()
                 if(answer.size()-1==helper.size())
                 {
                     ifwin=true;
-                }//如果已经走到了倒数第二步了，那么下面的程序就是把最后一步走完，所以这里直接将ifwin设为true
+                }//如果已经走到了倒数第二步了，那么下面的程序就是把最后一步走完，所以这里直接将ifwin设为trueninage
                 coinset[answer[helper.size()]->x-1][answer[helper.size()]->y-1]->changeFlag();
                 int  i=answer[helper.size()]->x-1;
                 int  j=answer[helper.size()]->y-1;
@@ -369,7 +384,8 @@ void PlayScene::godHand()
 
             }
             else
-            {    coinset[helper[helper.size()-1]->x-1][helper[helper.size()-1]->y-1]->changeFlag();
+            {
+                coinset[helper[helper.size()-1]->x-1][helper[helper.size()-1]->y-1]->changeFlag();
                 //先返回到最初的设定
                 int  i=helper[helper.size()-1]->x-1;
                 int  j=helper[helper.size()-1]->y-1;
@@ -471,7 +487,7 @@ void PlayScene::getBestRecord()
             }
         }
         best=a;
-        recordempty==false;
+        recordempty == false;
     }
     else
     {
@@ -481,6 +497,7 @@ void PlayScene::getBestRecord()
         qDebug()<<"无记录";
     }
 }
+
 void PlayScene::drawLevel()
 {
     //标明关卡序号
@@ -496,6 +513,7 @@ void PlayScene::drawLevel()
     label->setGeometry(30, this->height()-50,120,50);
     label->setText(QString("Level:%1").arg(barindex));
 }
+
 void PlayScene::startCounter()
 {
     //初始化玩家所用的时间（为0），启动记录玩家时间的定时器，每隔一秒记录一次
@@ -508,4 +526,189 @@ void PlayScene::startCounter()
         ++time;
         this->update();
     });
+}
+
+void PlayScene::nowArrayInit(int index)
+{
+    auto pos = config.mData.find(index);
+    for(int i=0;i < pos->first().size();++i)
+    {
+        array.push_back(config.mData[index][i]);
+    }
+
+}
+
+void PlayScene::recordArray(int x,int y)
+{
+    auto pos = config.mData.find(barindex);
+    for(int i=0;i < pos->first().size();++i)
+    {
+        for(int j=0;j < pos->first().size();++j)
+        {
+            cout<<array[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+
+    if(x < pos->first().size()-1)
+    {
+        array[x+1][y]=!(array[x+1][y]);
+    }//检测下边是否有硬币需要翻转
+
+    if(x >= 1)
+    {
+        array[x-1][y]=!(array[x-1][y]);
+    }//检测上边是否有硬币需要翻转
+
+    if(y < pos->first().size()-1)
+    {
+        array[x][y+1]=!(array[x][y+1]);
+    }//检测右边硬币是否需要反转
+
+    if(y >= 1)
+    {
+        array[x][y-1]=!(array[x][y-1]);
+    }//检测左边硬币是否需要反转
+
+    for(int i=0;i < pos->first().size();++i)
+    {
+        for(int j=0;j < pos->first().size();++j)
+        {
+            cout<<array[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+}
+
+void PlayScene::solveArray()
+{
+    minn = inf;
+    dfs(0,0,0);
+    stackOutput();
+    if (minn <= 16)    //有最小值
+        cout << minn << endl;
+    else
+    {
+        cout << "impossible" << endl;
+    }
+}
+
+void PlayScene::dfs(int x,int y,int step)
+{
+    auto pos = config.mData.find(barindex);
+    if (step > pos->first().size()*pos->first().size())   //翻了16次  已经不能再求出了
+    {
+       return;
+    };
+
+    if (check())   //检查是否达到目标状态
+    {
+        if (step < minn)   //维护最小值
+        {
+            minn = step;
+            ret_x = pos_x;
+            ret_y = pos_y;
+            return;
+        }
+    }
+
+    if (y >= pos->first().size())   //因为是按行走的，当走到行末时，就需要跳到下一行的第一个
+    {
+        x++;
+        y = 0;
+    }
+    if (x >= pos->first().size())  //矩阵找完了
+        return;
+    for (int i = 0; i < 2; i++)  //每个点的两种状态
+    {
+        if (i == 0)   //翻
+        {
+            pos_x.push(x);
+            pos_y.push(y);
+            swap(x, y);
+            dfs(x, y + 1, step + 1);
+            swap(x, y);   //把翻过的点恢复
+            pos_x.pop();
+            pos_y.pop();
+        }
+        else    //不翻
+            dfs(x, y + 1, step);
+    }
+}
+
+void PlayScene::swap(int x,int y)
+{
+    auto pos = config.mData.find(barindex);
+    array[x][y] = !array[x][y];
+    if(x < pos->first().size()-1)
+    {
+        array[x+1][y]=!(array[x+1][y]);
+    }//检测下边是否有硬币需要翻转
+
+    if(x >= 1)
+    {
+        array[x-1][y]=!(array[x-1][y]);
+    }//检测上边是否有硬币需要翻转
+
+    if(y < pos->first().size()-1)
+    {
+        array[x][y+1]=!(array[x][y+1]);
+    }//检测右边硬币是否需要反转
+
+    if(y >= 1)
+    {
+        array[x][y-1]=!(array[x][y-1]);
+    }//检测左边硬币是否需要反转
+}
+
+bool PlayScene::check()
+{
+    auto pos = config.mData.find(barindex);
+    int flag=1;
+    for (int i = 0; i < pos->first().size(); i++)
+    {
+      for (int j = 0; j < pos->first().size(); j++)
+      {
+          if (array[i][j] != flag)
+          {
+              return 0;
+          }
+      }
+    }
+    return 1;
+}
+
+void PlayScene::stackOutput()
+{
+    auto pos = config.mData.find(barindex);
+    while(!ret_x.empty())
+    {
+        cout << ret_x.top()<<" "<<ret_y.top()<<endl;
+        coinset[ret_x.top()][ret_y.top()]->changeFlag();
+        cout<<pos->first().size();
+        changeOther(ret_x.top(),ret_y.top(),pos->first().size());
+        ret_x.pop();
+        ret_y.pop();
+        break;
+    }
+
+    this->ifwin = true;
+    for(int i = 0;i<4;i++)
+    {
+        for(int j = 0 ;j<4;j++)
+        {
+            if(coinset[i][j]->flag==false)
+            {
+                this->ifwin = false;
+                break;
+            }
+        }
+    }
+
+    if(this->ifwin==true)
+    {
+        Sleep(1000); //这里延迟1秒
+        winEvent();
+    }
+
 }
