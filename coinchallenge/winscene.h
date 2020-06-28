@@ -13,6 +13,7 @@
 #include<QPen>
 #include"mybutton.h"
 #include "bgmusic.h"
+#include "config.h"
 
 /*************************************************
 

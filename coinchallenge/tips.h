@@ -9,6 +9,15 @@
 #include<QFont>
 #include<QString>
 #include<QMainWindow>
+#include "config.h"
+
+/*************************************************
+类名：Tips
+
+游戏提示功能函数实现之一
+**************************************************/
+
+
 class tips : public QWidget
 {
     Q_OBJECT

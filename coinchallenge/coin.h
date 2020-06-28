@@ -7,10 +7,21 @@
 #include<QTimer>
 #include<QString>
 #include<windows.h>
+#include "config.h"
+/*************************************************
+
+类名：Coin
+
+
+相关函数介绍：
+    changeFlag()                改变硬币的正反面
+
+
+**************************************************/
 class coin:public QPushButton
 {
 public:
-    coin(bool,int ,int);
+    coin(bool, int ,int);
     bool flag;
     int posx;//x坐标
     int posy;//y坐标

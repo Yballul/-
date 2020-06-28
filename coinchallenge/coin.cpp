@@ -11,11 +11,11 @@ coin::coin(bool a,int b,int c)
     id2=new QTimer;
     if(a)
     {
-        pix.load(":/res/Coin0001.png");
+        pix.load(COIN_GOLD);
     }
     else
     {
-        pix.load(":/res/Coin0008.png");
+        pix.load(COIN_SILVER);
 
     }
     this->setFixedSize(pix.width(),pix.height());

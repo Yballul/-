@@ -3,8 +3,14 @@
 
 #include <QObject>
 #include"mybutton.h"
+#include "config.h"
+
+/*************************************************
+类名：path
+    存储开发过程中的相关点
 
 
+**************************************************/
 
 class path : public QObject
 {

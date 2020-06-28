@@ -36,6 +36,7 @@ HEADERS += \
     bgmusic.h \
     choosescene.h \
     coin.h \
+    config.h \
     mainwindow.h\
     mybutton.h \
     path.h \

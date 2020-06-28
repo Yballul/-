@@ -1,6 +1,6 @@
 #include <QMainWindow>
 #include <QSound>
-
+#include "config.h"
 
 /*************************************************
 类名：bgMusic

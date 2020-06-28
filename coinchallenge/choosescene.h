@@ -6,6 +6,7 @@
 #include<vector>
 #include"winscene.h"
 #include "bgmusic.h"
+#include "config.h"
 
 using namespace std;
 
@@ -38,10 +39,14 @@ public:
     void backtomain(MainWindow *);
     bgMusic choosemusic;
 
+    // 创建我的按钮类的数组
+    vector<MyButton*>barchoose;
 
-    vector<MyButton*>barchoose;    // 创建我的按钮类的数组
-    MyButton *btn_back;    // 创建我的按钮类的数组
-    PlayScene *playscene;    // 创建我的按钮类的数组
+    // 创建返回按钮
+    MyButton *btn_back;
+
+    // 创建游戏场景
+    PlayScene *playscene;
 
 
 signals:

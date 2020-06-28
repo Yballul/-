@@ -19,7 +19,7 @@ PlayScene::PlayScene(int index)
     //设置窗口标题
     this->setWindowTitle(QString("游戏关卡%1").arg(index));
     //设置标题图标
-    this->setWindowIcon(QIcon(":/res/Coin0001.png"));
+    this->setWindowIcon(QIcon(COIN_GOLD));
     //初始化游戏关卡的序号
     barindex=index;
     //读取以往玩家的记录
@@ -38,14 +38,14 @@ PlayScene::PlayScene(int index)
     //设置“外挂”菜单项C
     god = new QAction("god's hand");
     Helpersendtips();
-    //设置“dfs”菜单项
-    QAction *dfsaction = new QAction("dfs");
+    //设置“提示”菜单项
+    QAction *dfsaction = new QAction("提示");
     startmenu->addAction(dfsaction);
 
 
     startmenu->addAction(quitaction);
-    startmenu->addAction(tipsaction);
-    startmenu->addAction(god);
+//    startmenu->addAction(tipsaction);
+//    startmenu->addAction(god);
     if(index<=9)
     {
         startmenu->addAction(dfsaction);
@@ -61,17 +61,17 @@ PlayScene::PlayScene(int index)
 
     // 测试dfs功能
     connect(dfsaction,&QAction::triggered,[=](){
-        this->solveArray();
+        solveArray();
     });
 
-    playmusic.setBasic(this, ":/res/No More What Ifs.wav");
+    playmusic.setBasic(this, BASIC_MUSIC);
     playmusic.setButton();
 
     //创建返回按钮
-    btn_back=new MyButton(":/res/BackButtonSelected.png");
+    btn_back=new MyButton(BACK_BUTTON);
     btn_back->setParent(this);
     btn_back->move(350,600);
-    Sound(btn_back, ":/res/BackButtonSound.wav");
+    Sound(btn_back, BACK_SOUND);
 
     //启动定时器，开始更新时间
     this->startCounter();
@@ -100,7 +100,7 @@ void PlayScene::createCoins()
             //设置金币背后的灰色方块
             QLabel * bg = new QLabel(this);
             QPixmap pix;
-            pix.load(":/res/BoardNode.png");
+            pix.load(BOADR_NODE);
             //设置灰色方块的位置
             bg->setGeometry(126+i*50+(5-pos->first().size())*22,220+j*50,pix.width(),pix.height());
             bg->setPixmap(pix);
@@ -112,7 +112,7 @@ void PlayScene::createCoins()
             little->move(126+i*50+(5-pos->first().size())*22,222+j*50);
             //初始化金币集
             coinset[i][j] = little;
-            Sound(coinset[i][j], ":/res/ConFlipSound.wav");
+            Sound(coinset[i][j], FLIP_SOUND);
             //点击金币，实现翻转
             connect(little,&coin::clicked,[=](){
                 //被点击的金币自身要翻转
@@ -693,9 +693,9 @@ void PlayScene::stackOutput()
     }
 
     this->ifwin = true;
-    for(int i = 0;i<4;i++)
+    for(int i = 0;i<pos->first().size();i++)
     {
-        for(int j = 0 ;j<4;j++)
+        for(int j = 0 ;j<pos->first().size();j++)
         {
             if(coinset[i][j]->flag==false)
             {

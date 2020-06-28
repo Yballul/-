@@ -38,12 +38,12 @@ void bgMusic::setButton()
 
 
     //静音按钮1
-    MyButton * mutebutton1 = new MyButton(":/res/NoMute1.png");
+    MyButton * mutebutton1 = new MyButton(NO_MUTE1);
     mutebutton1->setParent(window);
     mutebutton1->move(window->width() - mutebutton1->width(), window->height() - mutebutton1->height());
 
     //静音按钮2
-    MyButton * mutebutton2 = new MyButton(":/res/Mute1.png");
+    MyButton * mutebutton2 = new MyButton(MUTE1);
     mutebutton2->setParent(window);
     mutebutton2->move(window->width() - mutebutton2->width(), window->height() - mutebutton2->height());
     mutebutton2->hide();

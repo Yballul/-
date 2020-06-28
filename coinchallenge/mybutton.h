@@ -22,6 +22,7 @@
 #include<QString>
 #include<QPropertyAnimation>
 #include<QTimer>
+#include "config.h"
 
 class MyButton : public QPushButton
 {
@@ -30,13 +31,14 @@ public:
 
     MyButton(QString normalim,QString preeim="");
 
-    void  mousePressEvent(QMouseEvent *e);
-    void  mouseRealseEvent(QMouseEvent *e);
+    void mousePressEvent(QMouseEvent *e);
+    void mouseRealseEvent(QMouseEvent *e);
     void zoom();
 
 
     QString normalpath;//默认的显示路径
     QString presspath;//按下以后的显示路径
+
 signals:
 
 };

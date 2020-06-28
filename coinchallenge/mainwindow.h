@@ -5,7 +5,7 @@
 #include<QPainter>
 #include<QDebug>
 #include"mybutton.h"
-
+#include "config.h"
 #include"winscene.h"
 #include"playscene.h"
 #include <QSound>
@@ -20,12 +20,10 @@ QT_END_NAMESPACE
     主窗口类，进入游戏的主场景。
 
 相关函数介绍：
+    MainWindow(QWidget *parent = nullptr);
+                          进行主窗口的初始
     void paintEvent(QPaintEvent *)
                           重写绘图事件
-    void mousePressEvent(QMouseEvent*e)
-                          做有第二个参数的按钮按下特效
-    void mouseReleaseEvent(QMouseEvent *e)
-                          做有第二个参数的按钮弹起特效
 
 **************************************************/
 
@@ -41,9 +39,6 @@ public:
     void paintEvent(QPaintEvent *);
 
     bgMusic mainmusic;
-
-
-
 
 
     // 创建选择场景界面

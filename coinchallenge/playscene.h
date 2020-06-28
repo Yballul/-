@@ -25,6 +25,7 @@
 #include<windows.h>
 #include<iostream>
 #include <QStack>
+#include "config.h"
 
 /*************************************************
 类名：PlayScene
@@ -37,21 +38,29 @@
    void Helpersendtips();
                             提示界面
    void godHand();
-                            帮助玩家执行下一步
+                            游戏提示相关功能实现函数
    void getWindow(ChooseScene *);
                             获取选择关卡界面
    void drawLevel();
-
+                            绘画出等级
    void startCounter();
+                            开启定时器
    void createCoins();
+                            创建硬币
    void changeOther(int,int,int);
+                            改变硬币的上下左右面
    void ifWinGame(int );
+                            赢得胜利之后的函数封装
    void winEvent();
+                            获胜事件
    void recordScore();
+                            记录游戏时间
    void getBestRecord();
+                            获得最优成绩
    QString standardTime();
+                            时间标准化
    void Delay();
-
+                            延时函数
 **************************************************/
 
 class ChooseScene;

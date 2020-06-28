@@ -1,6 +1,7 @@
 #include <mybutton.h>
 #include <QSound>
 #include "coin.h"
+#include "config.h"
 
 /*************************************************
 类名：Sound
