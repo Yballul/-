@@ -1,7 +1,7 @@
 #include "coin.h"
 #include<QPushButton>
 
-coin::coin(bool a,int b,int c)
+Coin::Coin(bool a,int b,int c)
 {
     flag=a;
     posx=b;
@@ -56,7 +56,7 @@ coin::coin(bool a,int b,int c)
     });
 }
 
-void coin::changeFlag()
+void Coin::changeFlag()
 {
     if(flag)//金币翻银币
     {

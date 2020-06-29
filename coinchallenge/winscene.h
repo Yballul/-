@@ -23,7 +23,7 @@
 相关函数介绍：
     void paintEvent(QPaintEvent *e)
                           重写绘图事件
-    void backtomainscene(QMainWindow*)
+    void backToMainScene(QMainWindow*)
                           返回按钮的实现
     void mouseReleaseEvent(QMouseEvent *e)
                           做有第二个参数的按钮弹起特效
@@ -46,7 +46,7 @@ public:
     int index;
     bool breakrecord;
     bool empty;
-    bgMusic winmusic;
+    BGMusic winmusic;
 
 
 signals:

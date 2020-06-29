@@ -1,6 +1,6 @@
 ﻿#include "tips.h"
 
-tips::tips(path*a)
+Tips::Tips(Path*a)
 {
 
     answer=a;
@@ -20,7 +20,7 @@ tips::tips(path*a)
     label->setText(QString("right path:row %1，column %2").arg(answer->y).arg(answer->x));
 
 }
-void tips::backtoPlay(QMainWindow *a)
+void Tips::backtoPlay(QMainWindow *a)
 {
     connect(btn_back,&MyButton::clicked,[=](){
         btn_back->zoom();

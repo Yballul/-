@@ -32,7 +32,7 @@ public:
     MyButton(QString normalim,QString preeim="");
 
     void mousePressEvent(QMouseEvent *e);
-    void mouseRealseEvent(QMouseEvent *e);
+    void mouseReleaseEvent(QMouseEvent *e);
     void zoom();
 
 

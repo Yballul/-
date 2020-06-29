@@ -1,8 +1,8 @@
 #include "sound.h"
 
-Sound::Sound(coin* button, QString string)
+Sound::Sound(Coin* button, QString string)
 {
-    connect(button, &coin::clicked, [=](){
+    connect(button, &Coin::clicked, [=](){
         static QSound * sound = new QSound(string);
         sound->play();
     });

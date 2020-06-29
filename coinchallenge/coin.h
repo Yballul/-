@@ -18,10 +18,10 @@
 
 
 **************************************************/
-class coin:public QPushButton
+class Coin:public QPushButton
 {
 public:
-    coin(bool, int ,int);
+    Coin(bool, int ,int);
     bool flag;
     int posx;//x坐标
     int posy;//y坐标

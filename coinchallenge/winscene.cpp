@@ -31,14 +31,14 @@ WinScene::WinScene(int t,int u,int v,bool a,bool b)
        index=v;
        timeplay=t;
 
-       winmusic.setBasic(this, ":/res/LevelWinSound.wav");
+       winmusic.setBasic(this, WIN_SOUND);
 
 
 
-       btn_back=new MyButton(":/res/BackButton.png");
+       btn_back=new MyButton(BACK_BUTTON);
        btn_back->setParent(this);
        btn_back->move(this->width()-btn_back->width(),this->height()-btn_back->height());
-       Sound(btn_back, ":/res/BackButtonSound.wav");
+       Sound(btn_back, BACK_SOUND);
 
 
 }
@@ -48,8 +48,8 @@ void WinScene::paintEvent(QPaintEvent*e)
     QPainter painter(this);
     QPixmap map;//主场景对象
     QPixmap title;//主场景标题
-    title.load(":/res/Title.png");
-    map.load(":/res/PlayLevelSceneBg.png");//加载图片
+    title.load(TITLE);
+    map.load(PLAY_BG);//加载图片
     painter.drawPixmap(0,0,this->width(),this->height(),map);//绘制图片，并且按照实际情况进行拉伸
     painter.drawPixmap(10,30,title);//绘制标题图片
     QPen pen;

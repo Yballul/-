@@ -40,23 +40,65 @@ ChooseScene::ChooseScene(QWidget *parent) : QMainWindow(parent)
         this->close();
     });
 
-    btn_back=new MyButton(":/res/BackButton.png");//创建返回按钮
+
+    //创建返回按钮
+    btn_back=new MyButton(BACK_BUTTON);
     btn_back->setParent(this);
     btn_back->move(350,600);
-    Sound(btn_back, ":/res/BackButtonSound.wav");
+    Sound(btn_back, BACK_SOUND);
 
-    choosemusic.setBasic(this, ":/res/RoyalDays1.wav");
+    //设置背景音乐
+    choosemusic.setBasic(this, SUB_MUSIC);
     choosemusic.setButton();
 
+    //搭建主要界面
+    this->buildUpScene();
+
+
+}
+
+void ChooseScene::paintEvent(QPaintEvent *)
+{
+    QPainter painter(this);
+    QPixmap map;//主场景对象
+    QPixmap title;//主场景标题
+    title.load(TITLE);
+    map.load(OTHER_BG);//加载图片
+    painter.drawPixmap(0,0,this->width(),this->height(),map);//绘制图片，并且按照实际情况进行拉伸
+    painter.drawPixmap(10,30,title);//绘制标题图片
+}
+
+
+void ChooseScene::backToMain(MainWindow * a)
+{
+    //点击按钮后返回主窗口
+    connect(btn_back,&MyButton::clicked,[=](){
+        btn_back->zoom();
+        QTimer::singleShot(200,this,[=](){
+            this->hide();
+
+            choosemusic.check();
+
+            a->mainmusic.play();
+            a->setGeometry(this->geometry());
+            a->show();
+
+        });
+
+    });
+}
+
+void ChooseScene::buildUpScene()
+{
     playscene=NULL;
     for(int i=0;i<4;++i)
     {
         for(int j=0;j<4;++j)
         {
-            barchoose.push_back(new MyButton(":/res/LevelIcon.png"));
+            barchoose.push_back(new MyButton(LEVEL_ICON));
             barchoose[4*i+j]->setParent(this);
             barchoose[4*i+j]->move((j+1)*90,(i+1)*120);
-            Sound(barchoose[4*i+j], ":/res/TapButtonSound.wav");
+            Sound(barchoose[4*i+j], TAP_SOUND);
 
             connect(barchoose[4*i+j],&MyButton::clicked,[=](){
                 barchoose[4*i+j]->zoom();
@@ -83,36 +125,4 @@ ChooseScene::ChooseScene(QWidget *parent) : QMainWindow(parent)
 
         }
     }
-
-
 }
-
-void ChooseScene::paintEvent(QPaintEvent *)
-{
-    QPainter painter(this);
-    QPixmap map;//主场景对象
-    QPixmap title;//主场景标题
-    title.load(":/res/Title.png");
-    map.load(OTHER_BG);//加载图片
-    painter.drawPixmap(0,0,this->width(),this->height(),map);//绘制图片，并且按照实际情况进行拉伸
-    painter.drawPixmap(10,30,title);//绘制标题图片
-}
-
-
-void ChooseScene::backtomain(MainWindow * a)
-{
-    //点击按钮后返回主窗口
-    connect(btn_back,&MyButton::clicked,[=](){
-        btn_back->zoom();
-        QTimer::singleShot(200,this,[=](){
-            this->hide();
-            choosemusic.check();
-            a->mainmusic.play();
-            a->setGeometry(this->geometry());
-            a->show();
-
-        });
-
-    });
-}
-

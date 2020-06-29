@@ -62,7 +62,7 @@ void MyButton::mousePressEvent(QMouseEvent *e)
     QPushButton::mousePressEvent(e);
 }
 
-void MyButton::mouseRealseEvent(QMouseEvent *e)
+void MyButton::mouseReleaseEvent(QMouseEvent *e)
 {
     if(presspath!="")
     {
@@ -74,5 +74,5 @@ void MyButton::mouseRealseEvent(QMouseEvent *e)
         this->setIcon(pix);
         this->setIconSize(QSize(pix.width(),pix.height()));
     }
-    QPushButton::mousePressEvent(e);
+    QPushButton::mouseReleaseEvent(e);
 }

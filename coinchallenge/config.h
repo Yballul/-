@@ -12,5 +12,16 @@
 #define FLIP_SOUND ":/res/ConFlipSound.wav"
 #define OTHER_BG ":/res/OtherSceneBg.png"
 #define COIN_SILVER ":/res/Coin0008.png"
+#define MAIN_MUSIC ":/res/RoyalDays.wav"
+#define SUB_MUSIC ":/res/RoyalDays1.wav"
+#define WIN_SOUND ":/res/LevelWinSound.wav"
+#define START_BUTTON ":/res/MenuSceneStartButton.png"
+#define PLAY_BG ":/res/PlayLevelSceneBg.png"
+#define TAP_SOUND ":/res/TapButtonSound.wav"
+#define LEVEL_ICON ":/res/LevelIcon.png"
+#define TITLE ":/res/Title.png"
+
+
+
 
 #endif // CONFIG_H

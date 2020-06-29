@@ -1,6 +1,7 @@
 #include <QMainWindow>
 #include <QSound>
 #include "config.h"
+#include "mybutton.h"
 
 /*************************************************
 类名：bgMusic
@@ -10,7 +11,7 @@
     void check()    检查是否继续播放背景音乐
     void play()     播放背景音乐
     void playForOnce() 只播放一次背景音乐
-    void set(QMainWindow*, QString)
+    void setBasic(QMainWindow*, QString)
                     设置父亲窗体，播放路径
     void setButton()    创建静音按钮
 
@@ -22,11 +23,11 @@
 
 #include <QObject>
 
-class bgMusic : public QObject
+class BGMusic : public QObject
 {
     Q_OBJECT
 public:
-    bgMusic();
+    BGMusic();
     void check();
     void play();
     void setBasic(QMainWindow*, QString);
@@ -35,6 +36,8 @@ public:
     QMainWindow* window;
     QString address;
     QSound * sound;
+    MyButton * mutebutton1;
+    MyButton * mutebutton2;
 
 signals:
 

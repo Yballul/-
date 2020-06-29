@@ -38,7 +38,7 @@ public:
     ~MainWindow();
     void paintEvent(QPaintEvent *);
 
-    bgMusic mainmusic;
+    BGMusic mainmusic;
 
 
     // 创建选择场景界面

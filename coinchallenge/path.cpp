@@ -1,6 +1,6 @@
 #include "path.h"
 
-path::path(int a,int b)
+Path::Path(int a,int b)
 {
     x=a;
     y=b;

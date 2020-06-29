@@ -18,12 +18,12 @@
 **************************************************/
 
 
-class tips : public QWidget
+class Tips : public QWidget
 {
     Q_OBJECT
 public:
-    tips(path*);
-    path *answer;
+    Tips(Path*);
+    Path *answer;
     MyButton *btn_back;
     void backtoPlay(QMainWindow*);
 

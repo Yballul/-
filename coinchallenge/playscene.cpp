@@ -37,7 +37,7 @@ PlayScene::PlayScene(int index)
     tipsaction = new QAction("tips");
     //设置“外挂”菜单项C
     god = new QAction("god's hand");
-    Helpersendtips();
+    helperSendTips();
     //设置“提示”菜单项
     QAction *dfsaction = new QAction("提示");
     startmenu->addAction(dfsaction);
@@ -64,6 +64,7 @@ PlayScene::PlayScene(int index)
         solveArray();
     });
 
+    //设置背景音乐
     playmusic.setBasic(this, BASIC_MUSIC);
     playmusic.setButton();
 
@@ -106,7 +107,7 @@ void PlayScene::createCoins()
             bg->setPixmap(pix);
 
             //创造金币对象
-            coin *little = new coin(array[i][j],i+1,j+1);
+            Coin *little = new Coin(array[i][j],i+1,j+1);
             little->setParent(this);
             //设置金币的位置
             little->move(126+i*50+(5-pos->first().size())*22,222+j*50);
@@ -114,7 +115,7 @@ void PlayScene::createCoins()
             coinset[i][j] = little;
             Sound(coinset[i][j], FLIP_SOUND);
             //点击金币，实现翻转
-            connect(little,&coin::clicked,[=](){
+            connect(little,&Coin::clicked,[=](){
                 //被点击的金币自身要翻转
                 little->changeFlag();
 
@@ -129,7 +130,7 @@ void PlayScene::createCoins()
                 }
                 if(ifadd)
                 {
-                    helper.push_back(new path(i+1,j+1));//把玩家的路径压入向量
+                    helper.push_back(new Path(i+1,j+1));//把玩家的路径压入向量
                 }
                 //自身翻转后延后一段时间，然后四周金币翻转
                 int size = pos->first().size();
@@ -157,11 +158,13 @@ void PlayScene::winEvent()
     counter->stop();
     //隐藏当前窗口
     this->hide();
+    //停止播放音乐
     playmusic.check();
     //创建胜利场景
     win=new WinScene(time,best,barindex,time<best?true:false,recordempty);
     //为返回选择场景的“返回”提供场景
     win->backToMainScene(back);
+    //播放胜利场景音乐
     win->winmusic.playForOnce();
     //展现胜利窗口
     win->show();
@@ -220,9 +223,9 @@ void PlayScene::paintEvent(QPaintEvent *)
     //设置主场景标题
     QPixmap title;
     //加载标题图片
-    title.load(":/res/Title.png");
+    title.load(TITLE);
     //加载背景图片
-    map.load(":/res/PlayLevelSceneBg.png");
+    map.load(PLAY_BG);
     //绘制图片，并且按照实际情况进行拉伸
     painter.drawPixmap(0,0,this->width(),this->height(),map);
     //绘制标题图片
@@ -291,7 +294,7 @@ void PlayScene::backToChoose(ChooseScene *a)
         });//点击按钮后返回主窗口
 }
 
-void PlayScene::Helpersendtips()
+void PlayScene::helperSendTips()
 {
 
     connect( tipsaction,&QAction::triggered,[=](){
@@ -309,14 +312,14 @@ void PlayScene::Helpersendtips()
         }
             if(same)
             {
-                tip=new tips(answer[helper.size()]);//传输一步正确的
+                tip=new Tips(answer[helper.size()]);//传输一步正确的
                 ifadd=true;
             }
             else
             {
-                tip=new tips(helper[helper.size()-1]);//先返回到最初的设定
+                tip=new Tips(helper[helper.size()-1]);//先返回到最初的设定
                 ifadd=false;
-                comparation=new path(helper[helper.size()-1]->x,helper[helper.size()-1]->y);
+                comparation=new Path(helper[helper.size()-1]->x,helper[helper.size()-1]->y);
 
                 helper.pop_back();
             }
@@ -378,7 +381,7 @@ void PlayScene::godHand()
                 if(ifadd)
                {
 
-                helper.push_back(new path(i+1,j+1));//把外挂的路径压入向量
+                helper.push_back(new Path(i+1,j+1));//把外挂的路径压入向量
 
                }
 
@@ -415,7 +418,7 @@ void PlayScene::godHand()
                 helper.pop_back();//删除掉末尾的路径，不然会陷入死循环
                 if(ifadd)
                {
-                helper.push_back(new path(i+1,j+1));//把外挂的路径压入向量
+                helper.push_back(new Path(i+1,j+1));//把外挂的路径压入向量
                }
             }
 

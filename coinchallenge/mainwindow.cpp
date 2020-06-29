@@ -26,18 +26,18 @@ MainWindow::MainWindow(QWidget *parent)
 
     // 设置游戏的标题和图标
     this->setWindowTitle("翻金币");
-    this->setWindowIcon(QIcon(":/res/Coin0001.png"));
+    this->setWindowIcon(QIcon(COIN_GOLD));
 
 
     // 开始按钮的制作
-    MyButton *startBtn = new MyButton(":/res/MenuSceneStartButton.png");
+    MyButton *startBtn = new MyButton(START_BUTTON);
     startBtn->setParent(this);
     startBtn->move(this->width()*0.5-startBtn->width()*0.5,this->height()*0.7);
-    Sound(startBtn, ":/res/TapButtonSound.wav");
+    Sound(startBtn, TAP_SOUND);
     choose=new ChooseScene;
 
-
-    mainmusic.setBasic(this, ":/res/RoyalDays.wav");
+    //设置背景音乐
+    mainmusic.setBasic(this, MAIN_MUSIC);
     mainmusic.setButton();
     mainmusic.play();
 
@@ -57,7 +57,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 });
     // 点击按钮返回主界面的设置
-    choose->backtomain(this);
+    choose->backToMain(this);
 
 
 }

@@ -24,7 +24,7 @@ class Sound : public QObject
 {
     Q_OBJECT
 public:
-    Sound(coin*, QString);
+    Sound(Coin*, QString);
     Sound(MyButton*, QString);
 
 signals:

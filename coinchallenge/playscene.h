@@ -35,7 +35,7 @@
                             绘图时间，重新绘制游戏场景
    void backToChoose(ChooseScene*);
                             返回选择关卡界面
-   void Helpersendtips();
+   void helperSendTips();
                             提示界面
    void godHand();
                             游戏提示相关功能实现函数
@@ -75,7 +75,7 @@ public:
    PlayScene(int index);
    void paintEvent(QPaintEvent*);
    void backToChoose(ChooseScene*);
-   void Helpersendtips();
+   void helperSendTips();
    void godHand();
    void getWindow(ChooseScene *);
    void drawLevel();
@@ -96,20 +96,20 @@ public:
    void stackOutput();
    bool check();
 
-   bgMusic playmusic;
+   BGMusic playmusic;
    bool ifwin;
    bool ifadd;
    int barindex;
-   tips *tip;
+   Tips *tip;
    WinScene *win;
    SceneConfig config;
    QAction *tipsaction;
    QAction *god;
-   path *comparation;
-   coin *coinset[10][10];
+   Path *comparation;
+   Coin *coinset[10][10];
    MyButton *btn_back;
-   QVector<path*>helper;
-   QVector<path*>answer;
+   QVector<Path*>helper;
+   QVector<Path*>answer;
    QVector<QVector<int>> array;
 // bool array[4][4];
    QTimer *counter;
